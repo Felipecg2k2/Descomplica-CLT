@@ -1,0 +1,63 @@
+/* ==========================================================================
+   DESCOMPLICA CLT - DESIGN TOKENS OFICIAIS (IDENTIDADE VISUAL)
+   ========================================================================== */
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap');
+
+:root {
+  /* Paleta Institucional Oficial */
+  --brand-navy-950: #060D20;
+  --brand-navy-900: #0A1633;
+  --brand-navy-800: #11224D;
+  --brand-blue-700: #0B4BD6;
+  --brand-blue-600: #0F62FE;
+  --brand-blue-500: #2575FC;
+  --brand-cyan-500: #0EA5E9;
+  --brand-cyan-400: #38BDF8;
+  --brand-cyan-glow: rgba(56, 189, 248, 0.28);
+
+  /* Tokens Gerais (Admin Light Mode) */
+  --color-primary: #0F62FE;
+  --color-primary-hover: #0B4BD6;
+  --color-primary-contrast: #FFFFFF;
+  --color-secondary: #475569;
+  --color-accent: #0EA5E9;
+
+  /* Fundos, Superfícies e Cartões (Admin) */
+  --color-background: #F4F7FC;
+  --color-surface: #FFFFFF;
+  --color-surface-subtle: #EDF2FA;
+
+  /* Tipografia */
+  --color-text: #0A1633;
+  --color-text-secondary: #475569;
+  --color-muted: #64748B;
+
+  /* Bordas e Sombras */
+  --color-border: #DCE5F2;
+  --color-border-strong: #B8C7DF;
+  --shadow-sm: 0 2px 6px rgba(6, 13, 32, 0.05);
+  --shadow-md: 0 8px 24px rgba(6, 13, 32, 0.08);
+  --shadow-glow-blue: 0 8px 28px rgba(15, 98, 254, 0.35);
+  --shadow-glow-cyan: 0 0 24px rgba(56, 189, 248, 0.22);
+
+  /* Estados Semânticos */
+  --color-success: #16A34A;
+  --color-success-bg: #ECFDF5;
+  --color-error: #DC2626;
+  --color-error-bg: #FEF2F2;
+  --color-warning: #D97706;
+  --color-warning-bg: #FFFBEB;
+
+  /* Tipografia, Espaçamento e Raios */
+  --font-family-base: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --radius-sm: 8px;
+  --radius-md: 14px;
+  --radius-lg: 20px;
+  --radius-xl: 26px;
+
+  --space-xs: 0.5rem;
+  --space-sm: 0.75rem;
+  --space-md: 1.25rem;
+  --space-lg: 2rem;
+  --space-xl: 3rem;
+}

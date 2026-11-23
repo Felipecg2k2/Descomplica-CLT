@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Login Administrativo — Descomplica CLT</title>
+  <link rel="stylesheet" href="/css/variables.css?v=8" />
+  <link rel="stylesheet" href="/css/base.css?v=8" />
+  <link rel="stylesheet" href="/css/admin.css?v=8" />
+  <link rel="icon" type="image/png" href="/assets/brand/favicon.png" />
+</head>
+<body>
+  <div class="admin-login-wrapper">
+    <div class="admin-login-card">
+      <div style="margin-bottom: 1.5rem;">
+        <span class="badge badge-inactive">Área Administrativa</span>
+        <div id="login-brand-mount" style="margin-top: 0.65rem;">
+          <h1 style="font-size: 1.5rem;">Descomplica CLT</h1>
+        </div>
+        <p style="color: var(--color-text-secondary); font-size: 0.95rem; margin-top: 0.35rem;">
+          Acesse com a conta única de superusuário para gerenciar temas, perguntas, resultados e configurações.
+        </p>
+      </div>
+
+      <form id="admin-login-form">
+        <div class="form-group">
+          <label for="login-email">E-mail administrativo</label>
+          <input
+            type="email"
+            id="login-email"
+            class="form-control"
+            placeholder="descomplicaclt2026@gmail.com"
+            autocomplete="username"
+            required
+          />
+        </div>
+
+        <div class="form-group">
+          <label for="login-password">Senha</label>
+          <input
+            type="password"
+            id="login-password"
+            class="form-control"
+            placeholder="••••••••"
+            autocomplete="current-password"
+            required
+          />
+        </div>
+
+        <div id="login-error" class="alert-banner hidden" style="margin-bottom: 1rem; font-size: 0.9rem;"></div>
+
+        <button type="submit" id="btn-login-submit" class="btn btn-primary" style="width: 100%; min-height: 48px;">
+          Entrar no painel
+        </button>
+      </form>
+
+      <div style="margin-top: 1.25rem; text-align: center;">
+        <a href="/aluno" style="font-size: 0.9rem; color: var(--color-text-secondary);">← Ir para a tela do Totem (Aluno)</a>
+      </div>
+    </div>
+  </div>
+
+  <script type="module">
+    import { apiRequest, setAdminToken, getAdminToken, clearAdminToken } from '/js/shared/api.js';
+    import { renderBrandHeader } from '/assets/brand/brandConfig.js';
+
+    renderBrandHeader(document.getElementById('login-brand-mount'));
+
+    async function checkExistingSession() {
+      if (!getAdminToken()) return;
+      try {
+        await apiRequest('/api/admin/me');
+        window.location.href = '/admin';
+      } catch (_) {
+        clearAdminToken();
+      }
+    }
+
+    checkExistingSession();
+
+    document.getElementById('admin-login-form').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const email = document.getElementById('login-email').value.trim();
+      const password = document.getElementById('login-password').value;
+      const errBox = document.getElementById('login-error');
+      const btn = document.getElementById('btn-login-submit');
+
+      errBox.classList.add('hidden');
+      btn.disabled = true;
+      btn.textContent = 'Autenticando...';
+
+      try {
+        const res = await apiRequest('/api/admin/login', {
+          method: 'POST',
+          body: JSON.stringify({ email, password }),
+        });
+
+        setAdminToken(res.access_token);
+        localStorage.setItem('descomplica_clt_admin_user', JSON.stringify(res.user));
+        window.location.href = '/admin';
+      } catch (err) {
+        errBox.textContent = err.message;
+        errBox.classList.remove('hidden');
+      } finally {
+        btn.disabled = false;
+        btn.textContent = 'Entrar no painel';
+      }
+    });
+  </script>
+</body>
+</html>

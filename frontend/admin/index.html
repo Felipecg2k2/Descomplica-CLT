@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Painel Administrativo — Descomplica CLT</title>
+  <link rel="stylesheet" href="/css/variables.css?v=8" />
+  <link rel="stylesheet" href="/css/base.css?v=8" />
+  <link rel="stylesheet" href="/css/admin.css?v=8" />
+  <link rel="icon" type="image/png" href="/assets/brand/favicon.png" />
+</head>
+<body>
+  <div class="admin-layout">
+    <aside class="admin-sidebar">
+      <div id="admin-brand-mount" class="admin-brand">
+        <h1 class="brand-title">Descomplica CLT</h1>
+        <span class="brand-subtitle">Painel Administrativo</span>
+      </div>
+
+      <nav class="admin-nav">
+        <button type="button" class="nav-item active" data-view="dashboard">Dashboard</button>
+        <button type="button" class="nav-item" data-view="content">Gerenciar conteúdos</button>
+        <button type="button" class="nav-item" data-view="reports">Resultados e Relatórios</button>
+        <button type="button" class="nav-item" data-view="settings">Configurações</button>
+      </nav>
+
+      <div class="admin-sidebar-footer">
+        <div style="font-size: 0.85rem; color: var(--color-text-secondary); padding: 0 0.5rem;">
+          Logado como:<br />
+          <strong id="admin-user-name">...</strong>
+        </div>
+        <a href="/aluno" target="_blank" class="btn btn-secondary btn-sm">Abrir tela do Totem ↗</a>
+        <button type="button" id="btn-admin-logout" class="btn btn-danger btn-sm">Sair</button>
+      </div>
+    </aside>
+
+    <main id="admin-content" class="admin-main"></main>
+  </div>
+
+  <script type="module" src="/js/admin/auth.js"></script>
+</body>
+</html>

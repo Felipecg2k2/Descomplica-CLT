@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>Descomplica CLT — Quiz Educacional</title>
+  <link rel="stylesheet" href="/css/variables.css?v=9" />
+  <link rel="stylesheet" href="/css/base.css?v=9" />
+  <link rel="stylesheet" href="/css/totem.css?v=9" />
+  <link rel="icon" type="image/png" href="/assets/brand/favicon.png" />
+</head>
+<body class="totem-body">
+  <div class="totem-shell">
+    <header class="totem-header">
+      <div id="totem-brand-mount" class="brand-mark">
+        <span class="brand-title">Descomplica CLT</span>
+      </div>
+      <div id="header-student-pill" class="totem-student-pill hidden"></div>
+    </header>
+
+    <!-- TELA INICIAL -->
+    <main id="screen-welcome" class="totem-screen">
+      <div class="totem-center-box">
+        <div id="welcome-brand-mount" class="welcome-logo-slot"></div>
+        <span class="badge badge-inactive" style="font-size: 1rem; padding: 0.45rem 1rem;">Quiz Interativo Educacional</span>
+        <h1 class="totem-hero-title">Descomplica CLT</h1>
+        <p class="totem-hero-subtitle">
+          Aprender pode ser mais fácil! Teste seus conhecimentos e descubra o quanto você sabe.
+        </p>
+        <button type="button" id="btn-welcome-start" class="btn btn-primary btn-totem-xl">
+          Iniciar atividade
+        </button>
+      </div>
+    </main>
+
+    <!-- IDENTIFICAÇÃO DO ALUNO -->
+    <section id="screen-identify" class="totem-screen hidden">
+      <div class="totem-center-box">
+        <form id="form-identify" class="totem-form-card" novalidate>
+          <label for="input-student-name" class="totem-label">Qual é o seu nome completo?</label>
+          <p class="totem-hint">
+            Informe seu nome e sobrenome completos para facilitar a identificação nos relatórios da professora.
+          </p>
+          <input
+            type="text"
+            id="input-student-name"
+            class="totem-input"
+            placeholder="Ex.: Maria Oliveira Santos"
+            autocomplete="off"
+            required
+          />
+          <div id="identify-error" class="alert-banner hidden"></div>
+          <button type="submit" class="btn btn-primary btn-totem-full">Continuar</button>
+          <button type="button" id="btn-identify-back" class="btn btn-secondary btn-totem-full">Voltar</button>
+        </form>
+      </div>
+    </section>
+
+    <!-- SELEÇÃO DE TEMAS -->
+    <section id="screen-subjects" class="totem-screen hidden">
+      <div class="screen-heading">
+        <h2>Escolha um tema</h2>
+        <p>Toque no cartão do tema que deseja praticar agora.</p>
+      </div>
+      <div id="subjects-error" class="alert-banner hidden" style="margin-bottom: 1rem;"></div>
+      <div id="subjects-list" class="subjects-grid" style="flex: 1; overflow-y: auto;"></div>
+      <div style="padding-top: 0.75rem;">
+        <button type="button" id="btn-subjects-back" class="btn btn-secondary btn-totem-full">Alterar nome</button>
+      </div>
+    </section>
+
+    <!-- APRESENTAÇÃO DA ATIVIDADE -->
+    <section id="screen-intro" class="totem-screen hidden">
+      <div class="totem-center-box">
+        <div class="intro-card" style="text-align: left;">
+          <span class="badge badge-inactive">Tema Selecionado</span>
+          <h2 id="intro-subject-name" style="font-size: 1.75rem;"></h2>
+          <p id="intro-subject-desc" style="color: var(--color-text-secondary); font-size: 1.05rem;"></p>
+
+          <ul class="rules-list">
+            <li><strong>Total de questões:</strong> <span id="intro-q-count"></span></li>
+            <li><strong>Tempo por pergunta:</strong> <span id="intro-q-time"></span> para responder cada questão.</li>
+            <li><strong>Explicação imediata:</strong> Após cada resposta, você terá até <span id="intro-f-time"></span> para ler o feedback educativo.</li>
+            <li><strong>Atenção:</strong> Não é possível voltar ou alterar uma resposta enviada.</li>
+          </ul>
+
+          <div id="intro-error" class="alert-banner hidden"></div>
+
+          <button type="button" id="btn-start-quiz" class="btn btn-primary btn-totem-full">Começar quiz</button>
+          <button type="button" id="btn-intro-back" class="btn btn-secondary btn-totem-full">Escolher outro tema</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- TELA DAS PERGUNTAS -->
+    <section id="screen-question" class="totem-screen hidden">
+      <div class="quiz-container">
+        <div class="quiz-top-bar">
+          <div class="quiz-meta-row">
+            <span id="quiz-subject-name" class="quiz-subject-tag"></span>
+            <div class="quiz-top-actions">
+              <span id="quiz-counter" class="quiz-counter"></span>
+              <button type="button" id="btn-abandon-quiz" class="btn-abandon-quiz">Sair do quiz</button>
+            </div>
+          </div>
+          <div class="progress-track">
+            <div id="quiz-progress-fill" class="progress-fill"></div>
+          </div>
+          <div class="timer-box">
+            <span class="timer-label">Tempo restante</span>
+            <span id="quiz-timer-value" class="timer-value">60s</span>
+          </div>
+        </div>
+
+        <div id="quiz-statement" class="question-statement-box"></div>
+
+        <div id="quiz-options" class="options-stack"></div>
+      </div>
+    </section>
+
+    <!-- FEEDBACK APÓS CADA RESPOSTA -->
+    <section id="screen-feedback" class="totem-screen hidden">
+      <div class="quiz-container">
+        <div class="timer-box">
+          <span class="timer-label">Avanço automático em</span>
+          <span id="feedback-timer-value" class="timer-value">30s</span>
+        </div>
+
+        <div id="feedback-card" class="feedback-card" style="flex: 1; justify-content: center;">
+          <h2 id="feedback-title" class="feedback-status-title"></h2>
+          <div id="feedback-correct-text" class="feedback-correct-answer"></div>
+          <p id="feedback-explanation" class="feedback-explanation"></p>
+        </div>
+
+        <button type="button" id="btn-feedback-next" class="btn btn-primary btn-totem-full">
+          Próxima pergunta
+        </button>
+      </div>
+    </section>
+
+    <!-- RESULTADO FINAL -->
+    <section id="screen-result" class="totem-screen hidden">
+      <div class="screen-heading" style="margin-bottom: 0.85rem;">
+        <h2>Atividade concluída!</h2>
+        <p>Confira abaixo o seu desempenho nesta tentativa.</p>
+      </div>
+
+      <div class="timer-box" style="margin-bottom: 0.85rem;">
+        <span class="timer-label">Retorno automático à tela inicial em</span>
+        <span id="result-timer-value" class="timer-value">60s</span>
+      </div>
+
+      <div class="result-summary-card">
+        <div>
+          <p style="font-size: 0.95rem; color: var(--color-text-secondary);">Aluno(a)</p>
+          <strong id="result-student-name" style="font-size: 1.25rem;"></strong>
+        </div>
+        <div>
+          <p style="font-size: 0.95rem; color: var(--color-text-secondary);">Tema</p>
+          <strong id="result-subject-name" style="font-size: 1.15rem;"></strong>
+        </div>
+
+        <div class="accuracy-highlight">
+          <div class="accuracy-ring-wrapper">
+            <svg class="accuracy-ring-svg" viewBox="0 0 138 138" aria-hidden="true">
+              <defs>
+                <linearGradient id="brandRingGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                  <stop offset="0%" stop-color="#0F62FE" />
+                  <stop offset="100%" stop-color="#38BDF8" />
+                </linearGradient>
+              </defs>
+              <circle class="accuracy-ring-bg" cx="69" cy="69" r="56" />
+              <circle class="accuracy-ring-fill" id="result-accuracy-ring" cx="69" cy="69" r="56"
+                stroke-dasharray="351.86" stroke-dashoffset="351.86" />
+            </svg>
+            <div id="result-accuracy" class="accuracy-number">0%</div>
+          </div>
+          <span class="accuracy-label-text">Percentual de aproveitamento</span>
+        </div>
+
+        <div class="stats-grid-totem">
+          <div class="stat-box-totem">
+            <strong id="result-total">0</strong>
+            <span>Total de questões</span>
+          </div>
+          <div class="stat-box-totem">
+            <strong id="result-correct" style="color: var(--color-success);">0</strong>
+            <span>Acertos</span>
+          </div>
+          <div class="stat-box-totem">
+            <strong id="result-incorrect" style="color: var(--color-error);">0</strong>
+            <span>Erros</span>
+          </div>
+          <div class="stat-box-totem">
+            <strong id="result-unanswered" style="color: var(--color-warning);">0</strong>
+            <span>Não respondidas</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="result-actions">
+        <button type="button" id="btn-result-retry" class="btn btn-primary btn-totem-full">
+          Tentar novamente
+        </button>
+        <button type="button" id="btn-result-exit" class="btn btn-secondary btn-totem-full">
+          Sair
+        </button>
+      </div>
+    </section>
+
+    <!-- MODAL DE CONFIRMAÇÃO DE ABANDONO VOLUNTÁRIO -->
+    <div id="abandon-modal" class="totem-modal-backdrop hidden" role="dialog" aria-modal="true" aria-labelledby="abandon-modal-title">
+      <div class="totem-modal-card">
+        <h3 id="abandon-modal-title">Deseja realmente sair do quiz?</h3>
+        <p>Seu progresso nesta tentativa será encerrado.</p>
+        <div class="totem-modal-actions">
+          <button type="button" id="btn-abandon-cancel" class="btn btn-primary btn-totem-full">
+            Continuar respondendo
+          </button>
+          <button type="button" id="btn-abandon-confirm" class="btn btn-danger btn-totem-full">
+            Sair do quiz
+          </button>
+        </div>
+      </div>
+    </div>
+    <!-- MODAL DE AVISO DE INATIVIDADE ("VOCÊ ESTÁ AÍ?") -->
+    <div id="inactivity-warning-modal" class="totem-modal-backdrop inactivity-warning-backdrop hidden" role="dialog" aria-modal="true" aria-labelledby="inactivity-warning-title">
+      <div class="totem-modal-card inactivity-warning-card">
+        <span class="badge badge-warning" style="align-self: center; font-size: 0.95rem; padding: 0.4rem 0.95rem;">
+          Sessão inativa
+        </span>
+        <h3 id="inactivity-warning-title">Você está aí?</h3>
+        <p>Percebemos que você não interage com o quiz há algum tempo. Deseja continuar?</p>
+        <div class="inactivity-countdown-box" aria-live="polite">
+          <span>Encerrando automaticamente em</span>
+          <strong id="inactivity-warning-countdown">15s</strong>
+        </div>
+        <div class="totem-modal-actions">
+          <button type="button" id="btn-inactivity-continue" class="btn btn-primary btn-totem-full btn-inactivity-continue">
+            Sim, continuar
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script type="module" src="/js/aluno/app.js"></script>
+</body>
+</html>
